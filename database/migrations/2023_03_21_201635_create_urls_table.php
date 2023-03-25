@@ -11,16 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('urls', function (Blueprint $table) {
-            $table->id();
-            $table->string("short_url")->unique();
-            $table->text("original_url");
-            $table->foreignId("user_id")
-                ->nullable()
-                ->constrained("users");
-            $table->timestamps();
-            $table->softDeletes();
-        });
+        if (! Schema::hasTable("urls")) {
+            # code...
+            Schema::create('urls', function (Blueprint $table) {
+                $table->id();
+                $table->string("short_url")->unique();
+                $table->text("original_url");
+                $table->integer("click_count")->default(0);
+                $table->foreignId("user_id")
+                    ->nullable()
+                    ->constrained("users");
+                $table->timestamps();
+                $table->softDeletes();
+            });
+        }
     }
 
     /**

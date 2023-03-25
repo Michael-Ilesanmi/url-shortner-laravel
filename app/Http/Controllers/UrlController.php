@@ -32,6 +32,7 @@ class UrlController extends Controller
     {
         $record = Url::where("short_url", $url);
         if ($record->exists()) {
+            $record->first()->increment("click_count");
             return redirect($record->first()->original_url);
         }
 
