@@ -16,7 +16,11 @@ class UrlController extends Controller
         ]);
         $short_url = Str::random(6);
 
-        $new_url = Url::create(['short_url'=>$short_url, 'original_url'=>$request->original_url]);
+        $new_url = Url::create([
+                    'short_url'=>$short_url, 
+                    'original_url'=>$request->original_url, 
+                    'user_id'=>auth()->user()->id ?? null
+                ]);
         if ($request->session()->missing('urls')) {
             session(['urls' => [$new_url]]);
         } else {
